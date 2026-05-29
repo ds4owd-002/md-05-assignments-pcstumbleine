@@ -1,7 +1,7 @@
 ---
 title: "Conditional transformations"
 subtitle: "Practice with mutate() and case_when()"
-author: ""
+author: "Padraic Casserly"
 format:
   html:
     embed-resources: true
@@ -27,9 +27,15 @@ All exercises in this assignment use the `gapminder` data as a starting point.
 
 3.  How many variables are in the data set?
 
+*There are 6 variables.*
+
 4.  How many observations are in the data set?
 
+*There are 1,704 observations.*
+
 5.  What data types are contained in the variables?
+
+*The data set contains factor variables (country, continent), integer variables (year, pop), and double variables (lifeExp, gdpPercap).*
 
 ```{r}
 glimpse(gapminder)
@@ -52,15 +58,17 @@ gapminder |>
 
 2.  Write in your own words what `case_when()` is doing here:
 
-*Your answer here:*
+*case_when() is checking each row of the data set and assigning a category based on the value of gdpPercap. It puts countries with very low GDP per capita into the "low" group, countries with GDP per capita from 2000 up to less than 15000 into the "middle" group, and countries with GDP per capita of 15000 or more into the "high" group.*
+
+*case_when() checks each condition and returns the result for the first condition that is true which allows for the sorting of rows into categories based on rules.*
 
 ## Task 3: Classify life expectancy
 
 Use `mutate()` and `case_when()` to add a new column called `life_exp_group` to `gapminder` that classifies each row as:
 
-- `"short"` when `lifeExp` is less than 50
-- `"medium"` when `lifeExp` is between 50 and 70 (inclusive of 50, exclusive of 70)
-- `"long"` when `lifeExp` is 70 or greater
+-   `"short"` when `lifeExp` is less than 50
+-   `"medium"` when `lifeExp` is between 50 and 70 (inclusive of 50, exclusive of 70)
+-   `"long"` when `lifeExp` is 70 or greater
 
 ```{r}
 gapminder |>
@@ -75,9 +83,9 @@ gapminder |>
 
 Use `mutate()` and `case_when()` to add a new column called `pop_size` to `gapminder` that classifies each country as:
 
-- `"small"` when `pop` is less than 1,000,000
-- `"medium"` when `pop` is less than 50,000,000
-- `"large"` for all remaining rows (use `TRUE ~ "large"` as the last condition)
+-   `"small"` when `pop` is less than 1,000,000
+-   `"medium"` when `pop` is less than 50,000,000
+-   `"large"` for all remaining rows (use `TRUE ~ "large"` as the last condition)
 
 ```{r}
 gapminder |>
@@ -90,15 +98,15 @@ gapminder |>
 
 1.  What does `TRUE ~ "large"` do? Why is it useful?
 
-*Your answer here:*
+*TRUE \~ "large" stipulates that any row that did not match the earlier conditions, will be assigned "large". It is useful because it prevents unmatched rows from becoming NA.*
 
 ## Task 5: Combining multiple conditions
 
 Use `mutate()` and `case_when()` to add a new column called `status` to `gapminder` that classifies each row as:
 
-- `"thriving"` when `lifeExp` is greater than 70 AND `gdpPercap` is greater than 15000
-- `"developing"` when `lifeExp` is greater than 60 AND `gdpPercap` is greater than 2000
-- `"struggling"` for everything else
+-   `"thriving"` when `lifeExp` is greater than 70 AND `gdpPercap` is greater than 15000
+-   `"developing"` when `lifeExp` is greater than 60 AND `gdpPercap` is greater than 2000
+-   `"struggling"` for everything else
 
 Tip: use `&` to combine two conditions inside `case_when()`.
 
@@ -126,9 +134,9 @@ practice_df
 
 Use `mutate()` and `case_when()` to add a new column called `category` to `practice_df` that classifies each row as:
 
-- `"low"` when `score` is less than 30
-- `"high"` when `score` is 30 or greater
-- `"unknown"` when `score` is `NA` (use `is.na(score) ~ "unknown"`)
+-   `"low"` when `score` is less than 30
+-   `"high"` when `score` is 30 or greater
+-   `"unknown"` when `score` is `NA` (use `is.na(score) ~ "unknown"`)
 
 ```{r}
 practice_df |>
@@ -141,7 +149,7 @@ practice_df |>
 
 1.  What happens to `NA` values if you do *not* include `is.na(score) ~ "unknown"`?
 
-*Your answer here:*
+*Rows where score is NA will stay as NA in the new category column.*
 
 ## Task 7: Save your work
 
@@ -167,7 +175,11 @@ gapminder_classified
 
 1.  What new object appears in your Environment?
 
+*The new object that appears in your Environment is gapminder_classified. This new dataset is a saved version of the gapminder dataset with two new columns: life_exp_group and pop_size.*
+
 2.  Why would we use the assignment operator `<-` to save our results?
+
+*We use the assignment operator \<- to save our results so that we can use them again later. Without \<-, R only prints the result in the Console.*
 
 ## Task 8: Data communication
 
@@ -179,4 +191,4 @@ gapminder_classified
 
 ## Task 9: Commit & Push & Issue
 
-- Refer back to the instructions on the course website to complete the assignment.
+-   Refer back to the instructions on the course website to complete the assignment.
