@@ -1,0 +1,55 @@
+---
+title: "index.qmd"
+author: "Padraic Casserly"
+format: html
+editor: visual
+---
+
+## Project Description
+
+The data collected for this project contain time duration and task information from a Time-Driven Activity-Based Costing (TDABC) study of informal pit latrine emptying services in Mzuzu, Malawi, conducted as part of doctoral research at ETH Zürich. TDABC is a costing methodology that estimates the operational cost of a service by decomposing it into the discrete tasks performed, measuring how long each task takes in practice, and then multiplying those observed durations by appropriate cost-driver rates (such as labour cost per unit time). Unlike traditional activity-based costing, which estimates time allocations through interviews or assumptions, TDABC relies on direct observation, making accurate task-duration data the central empirical input to the cost model.
+
+The data was generated through structured ridealong observation in which an enumerator timed one or more "gulpers" (informal pit latrine emptiers) working in parallel on a single emptying job, using a custom-built mobile data collection tool that recorded the start and end of each task interval as gulpers moved through the job. Each row represents one continuous interval during which a single gulper was performing a single subtask: for example, a gulper might spend 92 seconds *fetching water* during the *Fluidizing* task (i.e., bringing water to the pit so that hardened sludge can be loosened), then 215 seconds *removing sludge* under *Extraction* (manually scooping sludge out of the pit), then 38 seconds in *Container transport* under *Sludge Handling* (moving the filled container to the truck). Higher-level tasks describe broad phases of the work — *Earthworks* (digging access trenches, cutting and later repairing the pit liner), *Equipment* (maneuvering, cleaning, and repairing tools and containers), *Communication* (with the client or between gulpers), *Travel* (to the disposal site), and *Rest* — while subtasks decompose those phases into the specific physical activities observed in the field.
+
+The `gulper_id` and `entry_number` columns allow each interval to be attributed to a specific gulper and ordered within the session, and `job_id` links the entries to a parent session for which separately stored metadata (date, location, enumerator) is held privately.
+
+## Install Libraries
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+## Import
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+# Imports one of the datasets
+
+may_21_data <- read_csv(
+  "/cloud/project/data/raw/2026-05-21_01.csv",
+  show_col_types = FALSE
+)
+
+glimpse(may_21_data)
+```
+
+
+## Clean
+```{r}
+#| echo: true
+
+# Removes any spacer columns and rows filled with NA values
+
+may_21_cleaned_data <- may_21_data %>%
+  select(where(~ !all(is.na(.)))) %>%   # remove empty columns
+  filter(if_any(everything(), ~ !is.na(.)))  # remove fully empty rows
+
+glimpse(may_21_cleaned_data)
+```
